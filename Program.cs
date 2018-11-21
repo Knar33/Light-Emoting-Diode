@@ -116,7 +116,7 @@ namespace Light_Emoting_Diode
                         var emotionValue = CalculateEmotion(fppResponse.faces[0].attributes.emotion);
 
                         //Debug stuff
-                        Console.WriteLine("anger: {0}", emotionValue.Item2);
+                        Console.WriteLine(emotionValue.Item2);
 
                         port.WriteLine(emotionValue.Item1.ToString());
                     }
@@ -164,32 +164,32 @@ namespace Light_Emoting_Diode
             if (emotion.anger > emotionValue)
             {
                 emotionValue = emotion.anger;
-                returnValue = new Tuple<int, string>(7, "anger");
+                returnValue = new Tuple<int, string>(1, "anger");
             }
             if (emotion.fear > emotionValue)
             {
                 emotionValue = emotion.fear;
-                returnValue = new Tuple<int, string>(7, "fear");
+                returnValue = new Tuple<int, string>(2, "fear");
             }
             if (emotion.happiness > emotionValue)
             {
                 emotionValue = emotion.happiness;
-                returnValue = new Tuple<int, string>(7, "happiness");
+                returnValue = new Tuple<int, string>(3, "happiness");
             }
             if (emotion.disgust > emotionValue)
             {
                 emotionValue = emotion.disgust;
-                returnValue = new Tuple<int, string>(7, "disgust");
+                returnValue = new Tuple<int, string>(4, "disgust");
             }
             if (emotion.neutral > emotionValue)
             {
                 emotionValue = emotion.neutral;
-                returnValue = new Tuple<int, string>(7, "neutral");
+                returnValue = new Tuple<int, string>(5, "neutral");
             }
             if (emotion.sadness > emotionValue)
             { 
                 emotionValue = emotion.sadness;
-                returnValue = new Tuple<int, string>(7, "sadness");
+                returnValue = new Tuple<int, string>(6, "sadness");
             }
             if (emotion.surprise > emotionValue)
             {
