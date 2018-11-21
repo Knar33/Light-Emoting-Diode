@@ -14,7 +14,7 @@ namespace Light_Emoting_Diode
             int baud = 9600;
             string portName = "COM6";
 
-            Console.WriteLine("Using ports {0}. Change ports? (y/n)", portName);
+            Console.Write("Using ports {0}. Change ports? (y/n) ", portName);
             string changePort = Console.ReadLine();
             if (changePort == "y")
             {
