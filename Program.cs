@@ -11,10 +11,10 @@ namespace Light_Emoting_Diode
         static SerialPort port;
         static void Main(string[] args)
         {
-            int baud = 1203;
-            string name = "COM6";
+            int baud = 9600;
+            string portName = "COM6";
 
-            Console.WriteLine("Using ports {0}. Change ports? (y/n)", name);
+            Console.WriteLine("Using ports {0}. Change ports? (y/n)", portName);
             string changePort = Console.ReadLine();
             if (changePort == "y")
             {
@@ -35,22 +35,22 @@ namespace Light_Emoting_Diode
                 }
 
                 Console.WriteLine("Choose Port:");
-                name = Console.ReadLine();
+                portName = Console.ReadLine();
             }
             
             Console.WriteLine(" ");
-            Console.WriteLine("Using baud rate {0}. Change rate? (y/n)", name);
+            Console.Write("Using baud rate {0}. Change rate? (y/n) ", baud);
             string changeRate = Console.ReadLine();
             if (changeRate == "y")
             {
                 Console.WriteLine(" ");
-                Console.WriteLine("Baud rate:");
+                Console.Write("Baud rate: ");
                 baud = GetBaudRate();
             }
 
             Console.WriteLine(" ");
             Console.WriteLine("Beging Serial...");
-            BeginSerial(baud, name);
+            BeginSerial(baud, portName);
             port.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived);
             port.Open();
             Console.WriteLine("Serial Started.");
@@ -60,7 +60,7 @@ namespace Light_Emoting_Diode
             for (; ; )
             {
                 Console.WriteLine(" ");
-                Console.WriteLine("> ");
+                Console.Write("> ");
                 port.WriteLine(Console.ReadLine());
             }
         }
@@ -70,7 +70,7 @@ namespace Light_Emoting_Diode
             for (int i = 0; i < (10000 * port.BytesToRead) / port.BaudRate; i++);
             Console.Write(port.ReadExisting());
             Console.WriteLine("");
-            Console.WriteLine("> ");
+            Console.Write("> ");
         }
 
         static void BeginSerial(int baud, string name)
