@@ -11,30 +11,42 @@ namespace Light_Emoting_Diode
         static SerialPort port;
         static void Main(string[] args)
         {
-            int baud;
-            string name;
-            Console.WriteLine("Welcome, enter parameters to begin");
-            Console.WriteLine(" ");
-            Console.WriteLine("Available ports:");
-            if (SerialPort.GetPortNames().Count() >= 0)
+            int baud = 1203;
+            string name = "COM3";
+
+            Console.WriteLine("Using ports {0}. Change ports? (y/n)", name);
+            string changePort = Console.ReadLine();
+            if (changePort == "y")
             {
-                foreach (string p in SerialPort.GetPortNames())
+                Console.WriteLine(" ");
+                Console.WriteLine("Available ports:");
+                if (SerialPort.GetPortNames().Count() >= 0)
                 {
-                    Console.WriteLine(p);
+                    foreach (string port in SerialPort.GetPortNames())
+                    {
+                        Console.WriteLine(port);
+                    }
                 }
+                else
+                {
+                    Console.WriteLine("No Ports available.");
+                    Console.ReadLine();
+                    return;
+                }
+
+                Console.WriteLine("Choose Port:");
+                name = Console.ReadLine();
             }
-            else
-            {
-                Console.WriteLine("No Ports available, press any key to exit.");
-                Console.ReadLine();
-                // Quit
-                return;
-            }
-            Console.WriteLine("Port Name:");
-            name = Console.ReadLine();
+            
             Console.WriteLine(" ");
-            Console.WriteLine("Baud rate:");
-            baud = GetBaudRate();
+            Console.WriteLine("Using baud rate {0}. Change rate? (y/n)", name);
+            string changeRate = Console.ReadLine();
+            if (changeRate == "y")
+            {
+                Console.WriteLine(" ");
+                Console.WriteLine("Baud rate:");
+                baud = GetBaudRate();
+            }
 
             Console.WriteLine(" ");
             Console.WriteLine("Beging Serial...");
@@ -43,7 +55,6 @@ namespace Light_Emoting_Diode
             port.Open();
             Console.WriteLine("Serial Started.");
             Console.WriteLine(" ");
-            Console.WriteLine("Ctrl+C to exit program");
             Console.WriteLine("Send:");
 
             for (; ; )
