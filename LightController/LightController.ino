@@ -56,47 +56,41 @@ void loop(){
 void ChangeColor(int futureColor[]){
   bool changing = true;
   
-  while(changing) {
+  for(int i = 0; i < 255; i++) {
     //change red
     if (futureColor[0] != currentColor[0]) {
       if (futureColor[0] > currentColor[0]) {
-        currentColor[0] += 1;
-        analogWrite(redPin, currentColor[0]);
+        currentColor[0]++;
       }
       else {
-        currentColor[0] -= 1;
-        analogWrite(redPin, currentColor[0]);
+        currentColor[0]--;
       }
     }
     
     //change green
     if (futureColor[1] != currentColor[1]) {
       if (futureColor[1] > currentColor[1]) {
-        currentColor[1] += 1;
-        analogWrite(greenPin, currentColor[1]);
+        currentColor[1]++;
       }
       else {
-        currentColor[1] -= 1;
-        analogWrite(greenPin, currentColor[1]);
+        currentColor[1]--;
       }
     }
     
     //change blue
     if (futureColor[2] != currentColor[2]) {
       if (futureColor[2] > currentColor[2]) {
-        currentColor[2] += 1;
-        analogWrite(bluePin, currentColor[2]);
+        currentColor[2]++;
       }
       else {
-        currentColor[2] -= 1;
-        analogWrite(bluePin, currentColor[2]);
+        currentColor[2]--;
       }
     }
 
-    delay(1);
-    
-    if (futureColor[0] == currentColor[0] && futureColor[1] == currentColor[1] && futureColor[2] == currentColor[2]) {
-      changing = false;
-    }
+    delay(3);
+
+    analogWrite(redPin, currentColor[0]);
+    analogWrite(greenPin, currentColor[1]);
+    analogWrite(bluePin, currentColor[2]);
   }
 }
