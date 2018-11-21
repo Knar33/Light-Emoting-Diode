@@ -113,15 +113,12 @@ namespace Light_Emoting_Diode
                     {
                         var response = client.Execute<FPPResponse>(request);
                         var fppResponse = response.Data;
-                        int emotionValue = CalculateEmotion(fppResponse.faces[0].attributes.emotion);
-                        Console.WriteLine("anger: {0}", fppResponse.faces[0].attributes.emotion.anger);
-                        Console.WriteLine("fear: {0}", fppResponse.faces[0].attributes.emotion.fear);
-                        Console.WriteLine("happiness: {0}", fppResponse.faces[0].attributes.emotion.happiness);
-                        Console.WriteLine("disgust: {0}", fppResponse.faces[0].attributes.emotion.disgust);
-                        Console.WriteLine("neutral: {0}", fppResponse.faces[0].attributes.emotion.neutral);
-                        Console.WriteLine("sadness: {0}", fppResponse.faces[0].attributes.emotion.sadness);
-                        Console.WriteLine("surprise: {0}", fppResponse.faces[0].attributes.emotion.surprise);
+                        var emotionValue = CalculateEmotion(fppResponse.faces[0].attributes.emotion);
 
+                        //Debug stuff
+                        Console.WriteLine("anger: {0}", emotionValue.Item2);
+
+                        //port.WriteLine(emotionValue.Item1.ToString());
                     }
                     catch (Exception ex)
                     {
@@ -159,45 +156,45 @@ namespace Light_Emoting_Diode
             }
         }
 
-        public static int CalculateEmotion(Emotion emotion)
+        public static Tuple<int, string> CalculateEmotion(Emotion emotion)
         {
             int emotionValue = 0;
-            int returnValue = 0;
+            Tuple<int, string> returnValue = null;
 
             if (emotion.anger > emotionValue)
             {
                 emotionValue = emotion.anger;
-                returnValue = 1;
+                returnValue = new Tuple<int, string>(7, "anger");
             }
             if (emotion.fear > emotionValue)
             {
                 emotionValue = emotion.fear;
-                returnValue = 2;
+                returnValue = new Tuple<int, string>(7, "fear");
             }
             if (emotion.happiness > emotionValue)
             {
                 emotionValue = emotion.happiness;
-                returnValue = 3;
+                returnValue = new Tuple<int, string>(7, "happiness");
             }
             if (emotion.disgust > emotionValue)
             {
                 emotionValue = emotion.disgust;
-                returnValue = 4;
+                returnValue = new Tuple<int, string>(7, "disgust");
             }
             if (emotion.neutral > emotionValue)
             {
                 emotionValue = emotion.neutral;
-                returnValue = 5;
+                returnValue = new Tuple<int, string>(7, "neutral");
             }
             if (emotion.sadness > emotionValue)
             { 
                 emotionValue = emotion.sadness;
-                returnValue = 6;
+                returnValue = new Tuple<int, string>(7, "sadness");
             }
             if (emotion.surprise > emotionValue)
             {
                 emotionValue = emotion.surprise;
-                returnValue = 7;
+                returnValue = new Tuple<int, string>(7, "surprise");
             }
 
             return returnValue;
