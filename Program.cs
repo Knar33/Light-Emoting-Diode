@@ -13,7 +13,7 @@ using System.Threading;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Drawing;
-using LedCSharp;
+using Spectral;
 
 namespace Light_Emoting_Diode
 {
@@ -92,7 +92,6 @@ namespace Light_Emoting_Diode
 
             DateTime compareTime = DateTime.Now;
 
-            LogitechGSDK.LogiLedSetTargetDevice(LogitechGSDK.LOGI_DEVICETYPE_ALL);
             while (true)
             {
                 DateTime currentTime = DateTime.Now;
@@ -120,7 +119,7 @@ namespace Light_Emoting_Diode
 
                         //Debug stuff
                         Console.WriteLine(emotionValue.Item2);
-                        LogitechGSDK.LogiLedSetLighting(0, 0, 0);
+                        Led.SetColorForDevice(Spectral.DeviceType.Keyboard, 255, 100, 0);
 
                         port.WriteLine(emotionValue.Item1.ToString());
                     }
