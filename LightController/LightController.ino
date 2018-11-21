@@ -87,7 +87,7 @@ void ChangeColor(int futureColor[]){
       }
     }
 
-    delay(3);
+    delay(4);
 
     analogWrite(redPin, currentColor[0]);
     analogWrite(greenPin, currentColor[1]);
