@@ -57,7 +57,7 @@ namespace Light_Emoting_Diode
             port.Open();
             Console.WriteLine("Serial Started.");
             Console.WriteLine(" ");
-            Console.WriteLine("Send:");
+            Console.WriteLine("Sending emotions");
 
             var client = new RestClient("https://api-us.faceplusplus.com/facepp/v3");
             string apiKey = ConfigurationManager.AppSettings["api_key"];
@@ -68,9 +68,20 @@ namespace Light_Emoting_Diode
             while (true)
             {
                 DateTime currentTime = DateTime.Now;
-                if (currentTime > compareTime.AddSeconds(10))
+                if (currentTime > compareTime.AddSeconds(2))
                 {
                     Console.WriteLine("tick");
+
+                    var request = new RestRequest("detect", Method.POST);
+                    request.OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; };
+                    request.AddParameter("api_key", apiKey);
+                    request.AddParameter("api_secret", apiSecret);
+                    request.AddParameter("image_url", "https://images-na.ssl-images-amazon.com/images/I/61kYheRISzL._AC_UL320_SR268,320_.jpg");
+                    request.AddParameter("return_attributes", "emotion");
+
+                    var response = client.Execute<FPPResponse>(request);
+                    var name = response.Data;
+
                     compareTime = DateTime.Now;
                 }
 
@@ -78,11 +89,6 @@ namespace Light_Emoting_Diode
                 //Console.Write("> ");
                 //port.WriteLine(Console.ReadLine());
 
-                //var request = new RestRequest("detect", Method.POST);
-                //request.AddParameter("api_key", apiKey);
-                //request.AddParameter("api_secret", apiSecret);
-                //request.AddParameter("image_url", "https://images-na.ssl-images-amazon.com/images/I/61kYheRISzL._AC_UL320_SR268,320_.jpg");
-                //request.AddParameter("return_attributes", "emotion");
             }
         }
 
