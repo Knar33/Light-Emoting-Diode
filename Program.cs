@@ -12,6 +12,7 @@ using System.Windows;
 using System.Threading;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Drawing;
 
 namespace Light_Emoting_Diode
 {
@@ -89,13 +90,15 @@ namespace Light_Emoting_Diode
             string apiSecret = ConfigurationManager.AppSettings["api_secret"];
 
             DateTime compareTime = DateTime.Now;
-
+            
             while (true)
             {
                 DateTime currentTime = DateTime.Now;
                 if (currentTime > compareTime.AddSeconds(5))
                 {
                     image = webCameraControl1.GetCurrentImage();
+                    image.Save("C:\\Users\\USER_0137\\Documents\\whatever.bmp");
+
                     MemoryStream ms = new MemoryStream();
                     image.Save(ms, ImageFormat.Jpeg);
                     byte[] byteImage = ms.ToArray();
