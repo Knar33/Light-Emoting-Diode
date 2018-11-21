@@ -5,6 +5,7 @@ using System.Text;
 using System.IO.Ports;
 using RestSharp;
 using System.Configuration;
+using RestSharp.Deserializers;
 
 namespace Light_Emoting_Diode
 {
@@ -60,6 +61,7 @@ namespace Light_Emoting_Diode
             Console.WriteLine("Sending emotions");
 
             var client = new RestClient("https://api-us.faceplusplus.com/facepp/v3");
+            client.AddHandler("application/json", new JsonDeserializer());
             string apiKey = ConfigurationManager.AppSettings["api_key"];
             string apiSecret = ConfigurationManager.AppSettings["api_secret"];
 
@@ -73,7 +75,6 @@ namespace Light_Emoting_Diode
                     Console.WriteLine("tick");
 
                     var request = new RestRequest("detect", Method.POST);
-                    request.OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; };
                     request.AddParameter("api_key", apiKey);
                     request.AddParameter("api_secret", apiSecret);
                     request.AddParameter("image_url", "https://images-na.ssl-images-amazon.com/images/I/61kYheRISzL._AC_UL320_SR268,320_.jpg");
@@ -116,6 +117,50 @@ namespace Light_Emoting_Diode
                 Console.WriteLine("Invalid integer.  Please try again:");
                 return GetBaudRate();
             }
+        }
+
+        public int CalculateEmotion(Emotion emotion)
+        {
+            int emotionValue = 0;
+            int returnValue = 0;
+
+            if (emotion.anger > emotionValue)
+            {
+                emotionValue = emotion.anger;
+                returnValue = 1;
+            }
+            if (emotion.fear > emotionValue)
+            {
+                emotionValue = emotion.fear;
+                returnValue = 2;
+            }
+            if (emotion.happiness > emotionValue)
+            {
+                emotionValue = emotion.happiness;
+                returnValue = 3;
+            }
+            if (emotion.disgust > emotionValue)
+            {
+                emotionValue = emotion.disgust;
+                returnValue = 4;
+            }
+            if (emotion.neutral > emotionValue)
+            {
+                emotionValue = emotion.neutral;
+                returnValue = 5;
+            }
+            if (emotion.sadness > emotionValue)
+            { 
+                emotionValue = emotion.sadness;
+                returnValue = 6;
+            }
+            if (emotion.surprise > emotionValue)
+            {
+                emotionValue = emotion.surprise;
+                returnValue = 7;
+            }
+
+            return emotionValue;
         }
     }
 }
