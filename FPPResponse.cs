@@ -44,6 +44,8 @@ namespace Light_Emoting_Diode
 
     public class Emotion
     {
+        internal int suprise;
+
         public Emotion()
         {
         }
