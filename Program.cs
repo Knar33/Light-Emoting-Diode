@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO.Ports;
+using RestSharp;
+using System.Configuration;
 
 namespace Light_Emoting_Diode
 {
@@ -57,11 +59,30 @@ namespace Light_Emoting_Diode
             Console.WriteLine(" ");
             Console.WriteLine("Send:");
 
-            for (; ; )
+            var client = new RestClient("https://api-us.faceplusplus.com/facepp/v3");
+            string apiKey = ConfigurationManager.AppSettings["api_key"];
+            string apiSecret = ConfigurationManager.AppSettings["api_secret"];
+
+            DateTime compareTime = DateTime.Now;
+
+            while (true)
             {
-                Console.WriteLine(" ");
-                Console.Write("> ");
-                port.WriteLine(Console.ReadLine());
+                DateTime currentTime = DateTime.Now;
+                if (currentTime > compareTime.AddSeconds(10))
+                {
+                    Console.WriteLine("tick");
+                    compareTime = DateTime.Now;
+                }
+
+                //Console.WriteLine(" ");
+                //Console.Write("> ");
+                //port.WriteLine(Console.ReadLine());
+
+                //var request = new RestRequest("detect", Method.POST);
+                //request.AddParameter("api_key", apiKey);
+                //request.AddParameter("api_secret", apiSecret);
+                //request.AddParameter("image_url", "https://images-na.ssl-images-amazon.com/images/I/61kYheRISzL._AC_UL320_SR268,320_.jpg");
+                //request.AddParameter("return_attributes", "emotion");
             }
         }
 
