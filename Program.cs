@@ -6,14 +6,22 @@ using System.IO.Ports;
 using RestSharp;
 using System.Configuration;
 using RestSharp.Deserializers;
+using WebEye;
+using WebEye.Controls.Wpf;
+using System.Windows;
+using System.Threading;
 
 namespace Light_Emoting_Diode
 {
     class Program
     {
         static SerialPort port;
+
+        [STAThread]
         static void Main(string[] args)
         {
+
+
             int baud = 9600;
             string portName = "COM6";
 
@@ -59,6 +67,20 @@ namespace Light_Emoting_Diode
             Console.WriteLine("Serial Started.");
             Console.WriteLine(" ");
             Console.WriteLine("Sending emotions");
+            
+            Thread newWindowThread = new Thread(new ThreadStart(() =>  
+            {
+                System.Windows.Threading.Dispatcher.Run();  
+            }));  
+            newWindowThread.SetApartmentState(ApartmentState.STA);  
+            newWindowThread.IsBackground = true;  
+            newWindowThread.Start();
+
+            System.Drawing.Bitmap image = null;
+            var webCameraControl1 = new WebCameraControl();
+            List<WebCameraId> cameras = new List<WebCameraId>(webCameraControl1.GetVideoCaptureDevices());
+            webCameraControl1.StartCapture(cameras[0]);
+            image = webCameraControl1.GetCurrentImage();
 
             var client = new RestClient("https://api-us.faceplusplus.com/facepp/v3");
             client.AddHandler("application/json", new JsonDeserializer());
