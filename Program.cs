@@ -160,7 +160,7 @@ namespace Light_Emoting_Diode
                 returnValue = 7;
             }
 
-            return emotionValue;
+            return returnValue;
         }
     }
 }
