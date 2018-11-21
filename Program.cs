@@ -12,7 +12,7 @@ namespace Light_Emoting_Diode
         static void Main(string[] args)
         {
             int baud = 1203;
-            string name = "COM3";
+            string name = "COM6";
 
             Console.WriteLine("Using ports {0}. Change ports? (y/n)", name);
             string changePort = Console.ReadLine();
@@ -67,8 +67,7 @@ namespace Light_Emoting_Diode
 
         static void port_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            for (int i = 0; i < (10000 * port.BytesToRead) / port.BaudRate; i++)
-                ;       //Delay a bit for the serial to catch up
+            for (int i = 0; i < (10000 * port.BytesToRead) / port.BaudRate; i++);
             Console.Write(port.ReadExisting());
             Console.WriteLine("");
             Console.WriteLine("> ");
