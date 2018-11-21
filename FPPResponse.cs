@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Light_Emoting_Diode
 {
-    class FPPResponse
+    public class FPPResponse
     {
         public string image_id { get; set; }
         public string request_id { get; set; }
