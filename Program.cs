@@ -10,6 +10,8 @@ using WebEye;
 using WebEye.Controls.Wpf;
 using System.Windows;
 using System.Threading;
+using System.Drawing.Imaging;
+using System.IO;
 
 namespace Light_Emoting_Diode
 {
@@ -80,7 +82,6 @@ namespace Light_Emoting_Diode
             var webCameraControl1 = new WebCameraControl();
             List<WebCameraId> cameras = new List<WebCameraId>(webCameraControl1.GetVideoCaptureDevices());
             webCameraControl1.StartCapture(cameras[0]);
-            image = webCameraControl1.GetCurrentImage();
 
             var client = new RestClient("https://api-us.faceplusplus.com/facepp/v3");
             client.AddHandler("application/json", new JsonDeserializer());
@@ -96,10 +97,16 @@ namespace Light_Emoting_Diode
                 {
                     Console.WriteLine("tick");
 
+                    image = webCameraControl1.GetCurrentImage();
+                    MemoryStream ms = new MemoryStream();
+                    image.Save(ms, ImageFormat.Jpeg);
+                    byte[] byteImage = ms.ToArray();
+                    string imageString = Convert.ToBase64String(byteImage);
+
                     var request = new RestRequest("detect", Method.POST);
                     request.AddParameter("api_key", apiKey);
                     request.AddParameter("api_secret", apiSecret);
-                    request.AddParameter("image_url", "https://images-na.ssl-images-amazon.com/images/I/61kYheRISzL._AC_UL320_SR268,320_.jpg");
+                    request.AddParameter("image_base64", imageString);
                     request.AddParameter("return_attributes", "emotion");
 
                     try
@@ -107,8 +114,14 @@ namespace Light_Emoting_Diode
                         var response = client.Execute<FPPResponse>(request);
                         var fppResponse = response.Data;
                         int emotionValue = CalculateEmotion(fppResponse.faces[0].attributes.emotion);
+                        Console.WriteLine("anger: {0}", fppResponse.faces[0].attributes.emotion.anger);
+                        Console.WriteLine("fear: {0}", fppResponse.faces[0].attributes.emotion.fear);
+                        Console.WriteLine("happiness: {0}", fppResponse.faces[0].attributes.emotion.happiness);
+                        Console.WriteLine("disgust: {0}", fppResponse.faces[0].attributes.emotion.disgust);
+                        Console.WriteLine("neutral: {0}", fppResponse.faces[0].attributes.emotion.neutral);
+                        Console.WriteLine("sadness: {0}", fppResponse.faces[0].attributes.emotion.sadness);
+                        Console.WriteLine("surprise: {0}", fppResponse.faces[0].attributes.emotion.surprise);
 
-                        port.WriteLine(emotionValue.ToString());
                     }
                     catch (Exception ex)
                     {
