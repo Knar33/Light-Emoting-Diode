@@ -24,7 +24,13 @@ namespace Light_Emoting_Diode
         [STAThread]
         static void Main(string[] args)
         {
-
+            int[] red = new int[3] { 255, 0, 0 };
+            int[] orange = new int[3] { 255, 30, 0 };
+            int[] yellow = new int[3] { 255, 100, 0 };
+            int[] green = new int[3] { 0, 255, 0 };
+            int[] teal = new int[3] { 0, 255, 255 };
+            int[] blue = new int[3] { 0, 0, 255 };
+            int[] purple = new int[3] { 255, 0, 255 };
 
             int baud = 9600;
             string portName = "COM6";
@@ -119,7 +125,34 @@ namespace Light_Emoting_Diode
 
                         //Debug stuff
                         Console.WriteLine(emotionValue.Item2);
-                        Led.SetColorForDevice(Spectral.DeviceType.Keyboard, 255, 100, 0);
+
+                        int[] color = new int[3];
+                        switch(emotionValue.Item1)
+                        {
+                            case 1:
+                                color = red;
+                                break;
+                            case 2:
+                                color = orange;
+                                break;
+                            case 3:
+                                color = yellow;
+                                break;
+                            case 4:
+                                color = green;
+                                break;
+                            case 5:
+                                color = teal;
+                                break;
+                            case 6:
+                                color = blue;
+                                break;
+                            case 7:
+                                color = purple;
+                                break;
+                        }
+
+                        Led.SetColorForDevice(Spectral.DeviceType.Keyboard, (byte)color[0], (byte)color[1], (byte)color[2]);
 
                         port.WriteLine(emotionValue.Item1.ToString());
                     }
