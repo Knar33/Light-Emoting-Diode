@@ -93,7 +93,7 @@ namespace Light_Emoting_Diode
             while (true)
             {
                 DateTime currentTime = DateTime.Now;
-                if (currentTime > compareTime.AddSeconds(2))
+                if (currentTime > compareTime.AddSeconds(5))
                 {
                     Console.WriteLine("tick");
 
@@ -118,7 +118,7 @@ namespace Light_Emoting_Diode
                         //Debug stuff
                         Console.WriteLine("anger: {0}", emotionValue.Item2);
 
-                        //port.WriteLine(emotionValue.Item1.ToString());
+                        port.WriteLine(emotionValue.Item1.ToString());
                     }
                     catch (Exception ex)
                     {

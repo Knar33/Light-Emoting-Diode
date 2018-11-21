@@ -10,6 +10,8 @@ int teal[3] = { 0, 255, 255};
 int blue[3] = { 0, 0, 255};
 int purple[3] = { 255, 0, 255};
 
+int currentColor[3] = {0, 0, 0};
+
 void setup(){
   Serial.begin(9600);
   pinMode(greenPin, OUTPUT);
@@ -51,8 +53,50 @@ void loop(){
   }
 }
 
-void ChangeColor(int color[]){
-    analogWrite(redPin, color[0]);
-    analogWrite(greenPin, color[1]);
-    analogWrite(bluePin, color[2]);
+void ChangeColor(int futureColor[]){
+  bool changing = true;
+  
+  while(changing) {
+    //change red
+    if (futureColor[0] != currentColor[0]) {
+      if (futureColor[0] > currentColor[0]) {
+        currentColor[0] += 1;
+        analogWrite(redPin, currentColor[0]);
+      }
+      else {
+        currentColor[0] -= 1;
+        analogWrite(redPin, currentColor[0]);
+      }
+    }
+    
+    //change green
+    if (futureColor[1] != currentColor[1]) {
+      if (futureColor[1] > currentColor[1]) {
+        currentColor[1] += 1;
+        analogWrite(greenPin, currentColor[1]);
+      }
+      else {
+        currentColor[1] -= 1;
+        analogWrite(greenPin, currentColor[1]);
+      }
+    }
+    
+    //change blue
+    if (futureColor[2] != currentColor[2]) {
+      if (futureColor[2] > currentColor[2]) {
+        currentColor[2] += 1;
+        analogWrite(bluePin, currentColor[2]);
+      }
+      else {
+        currentColor[2] -= 1;
+        analogWrite(bluePin, currentColor[2]);
+      }
+    }
+
+    delay(1);
+    
+    if (futureColor[0] == currentColor[0] && futureColor[1] == currentColor[1] && futureColor[2] == currentColor[2]) {
+      changing = false;
+    }
+  }
 }
