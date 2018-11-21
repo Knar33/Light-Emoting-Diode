@@ -95,8 +95,6 @@ namespace Light_Emoting_Diode
                 DateTime currentTime = DateTime.Now;
                 if (currentTime > compareTime.AddSeconds(5))
                 {
-                    Console.WriteLine("tick");
-
                     image = webCameraControl1.GetCurrentImage();
                     MemoryStream ms = new MemoryStream();
                     image.Save(ms, ImageFormat.Jpeg);
