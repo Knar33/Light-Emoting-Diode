@@ -80,16 +80,21 @@ namespace Light_Emoting_Diode
                     request.AddParameter("image_url", "https://images-na.ssl-images-amazon.com/images/I/61kYheRISzL._AC_UL320_SR268,320_.jpg");
                     request.AddParameter("return_attributes", "emotion");
 
-                    var response = client.Execute<FPPResponse>(request);
-                    var name = response.Data;
+                    try
+                    {
+                        var response = client.Execute<FPPResponse>(request);
+                        var fppResponse = response.Data;
+                        int emotionValue = CalculateEmotion(fppResponse.faces[0].attributes.emotion);
+
+                        port.WriteLine(emotionValue.ToString());
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
 
                     compareTime = DateTime.Now;
                 }
-
-                //Console.WriteLine(" ");
-                //Console.Write("> ");
-                //port.WriteLine(Console.ReadLine());
-
             }
         }
 
@@ -119,7 +124,7 @@ namespace Light_Emoting_Diode
             }
         }
 
-        public int CalculateEmotion(Emotion emotion)
+        public static int CalculateEmotion(Emotion emotion)
         {
             int emotionValue = 0;
             int returnValue = 0;
