@@ -103,7 +103,7 @@ namespace Light_Emoting_Diode
                 if (currentTime > compareTime.AddSeconds(5))
                 {
                     image = webCameraControl1.GetCurrentImage();
-                    image.Save("C:\\Users\\USER_0137\\Documents\\whatever.bmp");
+                    image.Save(ConfigurationManager.AppSettings["imagePath"]);
 
                     MemoryStream ms = new MemoryStream();
                     image.Save(ms, ImageFormat.Jpeg);
