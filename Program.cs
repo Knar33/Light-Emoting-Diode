@@ -32,6 +32,9 @@ namespace Light_Emoting_Diode
             int[] blue = new int[3] { 0, 0, 255 };
             int[] purple = new int[3] { 255, 0, 255 };
 
+            int[] currentColor = new int[3] { 0, 0, 0 };
+            int[] futureColor = null;
+
             int baud = 9600;
             string portName = "COM6";
 
@@ -125,34 +128,75 @@ namespace Light_Emoting_Diode
 
                         //Debug stuff
                         Console.WriteLine(emotionValue.Item2);
-
-                        int[] color = new int[3];
+                        
                         switch(emotionValue.Item1)
                         {
                             case 1:
-                                color = red;
+                                futureColor = red;
                                 break;
                             case 2:
-                                color = orange;
+                                futureColor = orange;
                                 break;
                             case 3:
-                                color = yellow;
+                                futureColor = yellow;
                                 break;
                             case 4:
-                                color = green;
+                                futureColor = green;
                                 break;
                             case 5:
-                                color = teal;
+                                futureColor = teal;
                                 break;
                             case 6:
-                                color = blue;
+                                futureColor = blue;
                                 break;
                             case 7:
-                                color = purple;
+                                futureColor = purple;
                                 break;
                         }
 
-                        Led.SetColorForDevice(Spectral.DeviceType.Keyboard, (byte)color[0], (byte)color[1], (byte)color[2]);
+                        for (int i = 0; i < 255; i++)
+                        {
+                            //change red
+                            if (futureColor[0] != currentColor[0])
+                            {
+                                if (futureColor[0] > currentColor[0])
+                                {
+                                    currentColor[0]++;
+                                }
+                                else
+                                {
+                                    currentColor[0]--;
+                                }
+                            }
+
+                            //change green
+                            if (futureColor[1] != currentColor[1])
+                            {
+                                if (futureColor[1] > currentColor[1])
+                                {
+                                    currentColor[1]++;
+                                }
+                                else
+                                {
+                                    currentColor[1]--;
+                                }
+                            }
+
+                            //change blue
+                            if (futureColor[2] != currentColor[2])
+                            {
+                                if (futureColor[2] > currentColor[2])
+                                {
+                                    currentColor[2]++;
+                                }
+                                else
+                                {
+                                    currentColor[2]--;
+                                }
+                            }
+                            
+                            Led.SetColorForDevice(Spectral.DeviceType.Keyboard, (byte)currentColor[0], (byte)currentColor[1], (byte)currentColor[2]);
+                        }
 
                         port.WriteLine(emotionValue.Item1.ToString());
                     }
