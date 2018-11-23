@@ -125,11 +125,8 @@ namespace Light_Emoting_Diode
                         var response = client.Execute<FPPResponse>(request);
                         var fppResponse = response.Data;
                         var emotionValue = CalculateEmotion(fppResponse.faces[0].attributes.emotion);
-
-                        //Debug stuff
-                        Console.WriteLine(emotionValue.Item2);
                         
-                        switch(emotionValue.Item1)
+                        switch(emotionValue)
                         {
                             case 1:
                                 futureColor = red;
@@ -154,7 +151,7 @@ namespace Light_Emoting_Diode
                                 break;
                         }
                         
-                        port.WriteLine(emotionValue.Item1.ToString());
+                        port.WriteLine(emotionValue.ToString());
 
                         for (int i = 0; i < 255; i++)
                         {
@@ -238,46 +235,22 @@ namespace Light_Emoting_Diode
             }
         }
 
-        public static Tuple<int, string> CalculateEmotion(Emotion emotion)
+        public static int CalculateEmotion(Emotion emotion)
         {
             int emotionValue = 0;
-            Tuple<int, string> returnValue = null;
 
-            if (emotion.anger > emotionValue)
+            Dictionary<int, int> emotions = new Dictionary<int, int>()
             {
-                emotionValue = emotion.anger;
-                returnValue = new Tuple<int, string>(1, "anger");
-            }
-            if (emotion.fear > emotionValue)
-            {
-                emotionValue = emotion.fear;
-                returnValue = new Tuple<int, string>(2, "fear");
-            }
-            if (emotion.happiness > emotionValue)
-            {
-                emotionValue = emotion.happiness;
-                returnValue = new Tuple<int, string>(3, "happiness");
-            }
-            if (emotion.disgust > emotionValue)
-            {
-                emotionValue = emotion.disgust;
-                returnValue = new Tuple<int, string>(4, "disgust");
-            }
-            if (emotion.neutral > emotionValue)
-            {
-                emotionValue = emotion.neutral;
-                returnValue = new Tuple<int, string>(5, "neutral");
-            }
-            if (emotion.sadness > emotionValue)
-            { 
-                emotionValue = emotion.sadness;
-                returnValue = new Tuple<int, string>(6, "sadness");
-            }
-            if (emotion.surprise > emotionValue)
-            {
-                emotionValue = emotion.surprise;
-                returnValue = new Tuple<int, string>(7, "surprise");
-            }
+                { 1, emotion.anger },
+                { 2, emotion.fear },
+                { 3, emotion.happiness },
+                { 4, emotion.disgust },
+                { 5, emotion.neutral },
+                { 6, emotion.sadness },
+                { 7, emotion.surprise },
+            };
+
+            int returnValue = emotions.OrderByDescending(x => x.Value).First().Key;
 
             return returnValue;
         }
