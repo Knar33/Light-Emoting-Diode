@@ -153,6 +153,8 @@ namespace Light_Emoting_Diode
                                 futureColor = purple;
                                 break;
                         }
+                        
+                        port.WriteLine(emotionValue.Item1.ToString());
 
                         for (int i = 0; i < 255; i++)
                         {
@@ -199,8 +201,6 @@ namespace Light_Emoting_Diode
 
                             Thread.Sleep(4);
                         }
-
-                        port.WriteLine(emotionValue.Item1.ToString());
                     }
                     catch (Exception ex)
                     {
