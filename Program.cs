@@ -196,6 +196,8 @@ namespace Light_Emoting_Diode
                             }
                             
                             Led.SetColorForDevice(Spectral.DeviceType.Keyboard, (byte)currentColor[0], (byte)currentColor[1], (byte)currentColor[2]);
+
+                            Thread.Sleep(4);
                         }
 
                         port.WriteLine(emotionValue.Item1.ToString());
