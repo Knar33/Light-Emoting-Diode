@@ -126,7 +126,7 @@ namespace Light_Emoting_Diode
                         var fppResponse = response.Data;
                         var emotionValue = CalculateEmotion(fppResponse.faces[0].attributes.emotion);
                         
-                        switch(emotionValue)
+                        switch((int)emotionValue)
                         {
                             case 1:
                                 futureColor = red;
@@ -151,7 +151,7 @@ namespace Light_Emoting_Diode
                                 break;
                         }
                         
-                        port.WriteLine(emotionValue.ToString());
+                        port.WriteLine(((int)emotionValue).ToString());
 
                         for (int i = 0; i < 255; i++)
                         {
@@ -235,24 +235,37 @@ namespace Light_Emoting_Diode
             }
         }
 
-        public static int CalculateEmotion(Emotion emotion)
+        public static EmotionValue CalculateEmotion(Emotion emotion)
         {
             int emotionValue = 0;
 
-            Dictionary<int, int> emotions = new Dictionary<int, int>()
+            Dictionary<EmotionValue, int> emotions = new Dictionary<EmotionValue, int>()
             {
-                { 1, emotion.anger },
-                { 2, emotion.fear },
-                { 3, emotion.happiness },
-                { 4, emotion.disgust },
-                { 5, emotion.neutral },
-                { 6, emotion.sadness },
-                { 7, emotion.surprise },
+                { EmotionValue.anger, emotion.anger },
+                { EmotionValue.fear, emotion.fear },
+                { EmotionValue.happiness, emotion.happiness },
+                { EmotionValue.disgust, emotion.disgust },
+                { EmotionValue.neutral, emotion.neutral },
+                { EmotionValue.sadness, emotion.sadness },
+                { EmotionValue.surprise, emotion.surprise },
             };
 
-            int returnValue = emotions.OrderByDescending(x => x.Value).First().Key;
+            var firstEmotion = emotions.OrderByDescending(x => x.Value).First().Key;
+            var secondEmotion = emotions.OrderByDescending(x => x.Value).ElementAt(1).Key;
+            Console.WriteLine("{0} {1}, {2} {3}", firstEmotion, emotions[firstEmotion], secondEmotion, emotions[secondEmotion]);
 
-            return returnValue;
+            return firstEmotion;
         }
+    }
+
+    public enum EmotionValue
+    {
+        anger = 1,
+        fear = 2,
+        happiness = 3,
+        disgust = 4,
+        neutral = 5,
+        sadness = 6,
+        surprise = 7
     }
 }
