@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO.Ports;
-using RestSharp;
-using System.Configuration;
+﻿using RestSharp;
 using RestSharp.Deserializers;
-using WebEye;
-using WebEye.Controls.Wpf;
-using System.Windows;
-using System.Threading;
+using Spectral;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Drawing;
-using Spectral;
+using System.IO.Ports;
+using System.Linq;
+using System.Threading;
+using WebEye.Controls.Wpf;
 
 namespace Light_Emoting_Diode
 {
