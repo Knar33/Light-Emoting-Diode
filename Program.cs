@@ -25,10 +25,10 @@ namespace Light_Emoting_Diode
         static void Main(string[] args)
         {
             int[] red = new int[3] { 255, 0, 0 };
-            int[] orange = new int[3] { 255, 30, 0 };
-            int[] yellow = new int[3] { 255, 100, 0 };
+            int[] orange = new int[3] { 255, 50, 0 };
+            int[] yellow = new int[3] { 255, 200, 0 };
             int[] green = new int[3] { 0, 255, 0 };
-            int[] teal = new int[3] { 0, 255, 255 };
+            int[] teal = new int[3] { 0, 127, 255 };
             int[] blue = new int[3] { 0, 0, 255 };
             int[] purple = new int[3] { 255, 0, 255 };
 
