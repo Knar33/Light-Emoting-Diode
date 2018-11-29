@@ -17,6 +17,7 @@ void setup(){
   pinMode(greenPin, OUTPUT);
   pinMode(bluePin, OUTPUT);
   pinMode(redPin, OUTPUT);
+  ChangeColor(teal);
 }
 
 void loop(){
