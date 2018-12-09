@@ -1,6 +1,6 @@
 int redPin = 3;
-int bluePin = 6;
-int greenPin = 10;
+int bluePin = 10;
+int greenPin = 6;
 
 int red[3] = { 255, 0, 0};
 int orange[3] = { 255, 30, 0};
