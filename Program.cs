@@ -32,7 +32,7 @@ namespace Light_Emoting_Diode
             int[] futureColor = null;
 
             int baud = 9600;
-            string portName = "COM6";
+            string portName = ConfigurationManager.AppSettings["DefaultPort"];
 
             Console.Write("Using ports {0}. Change ports? (y/n) ", portName);
             string changePort = Console.ReadLine();
