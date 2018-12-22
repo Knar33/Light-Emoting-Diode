@@ -67,14 +67,114 @@ namespace Light_Emoting_Diode
                 Console.Write("Baud rate: ");
                 baud = GetBaudRate();
             }
-
             Console.WriteLine(" ");
             Console.WriteLine("Beging Serial...");
             BeginSerial(baud, portName);
             port.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived);
             port.Open();
             Console.WriteLine("Serial Started.");
+
             Console.WriteLine(" ");
+            Console.Write("Enable color choose mode? (y/n) ");
+            string colorChoose = Console.ReadLine();
+            if (colorChoose == "y")
+            {
+                while(true)
+                {
+                    Console.WriteLine(" ");
+                    Console.Write("Enter a number 1 through 7: ");
+                    int choice = 1;
+                    try
+                    {
+                        choice = int.Parse(Console.ReadLine());
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Failed to parse number");
+                    }
+
+                    try
+                    {
+                        switch (choice)
+                        {
+                            case 1:
+                                futureColor = red;
+                                break;
+                            case 2:
+                                futureColor = orange;
+                                break;
+                            case 3:
+                                futureColor = yellow;
+                                break;
+                            case 4:
+                                futureColor = green;
+                                break;
+                            case 5:
+                                futureColor = teal;
+                                break;
+                            case 6:
+                                futureColor = blue;
+                                break;
+                            case 7:
+                                futureColor = purple;
+                                break;
+                        }
+
+                        port.WriteLine((choice).ToString());
+
+                        for (int i = 0; i < 255; i++)
+                        {
+                            //change red
+                            if (futureColor[0] != currentColor[0])
+                            {
+                                if (futureColor[0] > currentColor[0])
+                                {
+                                    currentColor[0]++;
+                                }
+                                else
+                                {
+                                    currentColor[0]--;
+                                }
+                            }
+
+                            //change green
+                            if (futureColor[1] != currentColor[1])
+                            {
+                                if (futureColor[1] > currentColor[1])
+                                {
+                                    currentColor[1]++;
+                                }
+                                else
+                                {
+                                    currentColor[1]--;
+                                }
+                            }
+
+                            //change blue
+                            if (futureColor[2] != currentColor[2])
+                            {
+                                if (futureColor[2] > currentColor[2])
+                                {
+                                    currentColor[2]++;
+                                }
+                                else
+                                {
+                                    currentColor[2]--;
+                                }
+                            }
+
+                            Led.SetColor((byte)currentColor[0], (byte)currentColor[1], (byte)currentColor[2]);
+
+                            Thread.Sleep(4);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
+            }
+            
             Console.WriteLine("Sending emotions");
             
             Thread newWindowThread = new Thread(new ThreadStart(() =>  
